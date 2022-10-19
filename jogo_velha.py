@@ -40,45 +40,76 @@ def menu_escolha(jogador_1, jogador_2):
             print("Você digitou algo errado\n")
             continue
 
-def jogada(jogada1, jogada2):
+def verificar(par):
+    for i in lista_posicoes:
+        for j in i:
+            if par == j:
+                return True
+            else:
+                return False
+
+def jogadas1(jogada1):
+    print(verificar(0))
+    if jogada1==0:
+        for linha in range(0, 3):
+            if  not verificar(jogada1):
+                print(lista_posicoes[linha])
+                print("if1")
+            else:
+                print("else1")
+                if jogada1 in lista_posicoes[linha]:
+                    posicao = lista_posicoes[linha].index(jogada1)
+                    lista_posicoes[linha][posicao] = jogador1
+                    vitoria(vencer=venceu)
+                    break
+    else:
+        for linha in range(0, 3):
+            if  verificar(jogada1):
+                print(lista_posicoes[linha])
+                print("if1")
+            else:
+                print("else1")
+                if jogada1 in lista_posicoes[linha]:
+                    posicao = lista_posicoes[linha].index(jogada1)
+                    lista_posicoes[linha][posicao] = jogador1
+                    vitoria(vencer=venceu)
+                    break
+    desenho_forca(lista_posicoes)
+
+
+
+def jogadas2(jogada2):
     for linha in range(0, 3):
-        if jogada1 in lista_posicoes[linha] == "X" or jogada1 in lista_posicoes[linha] == "O":
-            print("Esse opção já foi escolhida")
+        if verificar(jogada2):
+            print("if2")
         else:
-            if jogada1 in lista_posicoes[linha]:
-                posicao = lista_posicoes[linha].index(jogada1)
-                lista_posicoes[linha][posicao] = jogador1
-                vitoria()
-    for linha in range(0, 3):
-        if jogada2 in lista_posicoes[linha] == "X" or jogada2 in lista_posicoes[linha] == "O":
-            print("Esse opção já foi escolhida")
-        else:
+            print("else2")
             if jogada2 in lista_posicoes[linha]:
                 posicao = lista_posicoes[linha].index(jogada2)
                 lista_posicoes[linha][posicao] = jogador2
-                vitoria()
+                vitoria(vencer=venceu)
+                break
     desenho_forca(lista_posicoes)
 
-def vitoria():
+def vitoria(vencer):
     for linhas in range(0, 3):
-        if lista_posicoes[linhas][0] and lista_posicoes[linhas][1] and lista_posicoes[linhas][2] == jogador1:
+        if lista_posicoes[linhas][0] == jogador1 and lista_posicoes[linhas][1] == jogador1 and lista_posicoes[linhas][2] == jogador1:
             print("Jogador 1, VENCEU")
-            venceu= True
-            return venceu
-        elif lista_posicoes[linhas][0] and lista_posicoes[linhas][1] and lista_posicoes[linhas][2] == jogador2:
+            vencer = True
+            return vencer
+        if lista_posicoes[linhas][0] == jogador2 and lista_posicoes[linhas][1] == jogador2 and lista_posicoes[linhas][2] == jogador2:
             print("Jogador 2, VENCEU")
-            venceu = True
-            return venceu
+            vencer = True
+            return vencer
     for linhas in range(0, 3):
-        if lista_posicoes[0][linhas] and lista_posicoes[1][linhas] and lista_posicoes[2][linhas] == jogador1:
+        if lista_posicoes[0][linhas] == jogador1 and lista_posicoes[1][linhas] == jogador1 and lista_posicoes[2][linhas] == jogador1:
             print("Jogador 1, VENCEU")
-            venceu = True
-            return venceu
-        if lista_posicoes[0][linhas] and lista_posicoes[1][linhas] and lista_posicoes[2][linhas] == jogador2:
+            vencer = True
+            return vencer
+        if lista_posicoes[0][linhas] == jogador2 and lista_posicoes[1][linhas] == jogador2 and lista_posicoes[2][linhas] == jogador2:
             print("Jogador 2, VENCEU")
-            venceu = True
-            return venceu
-
+            vencer = True
+            return vencer
 
 if __name__ == "__main__":
     lista_posicoes = [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
@@ -89,12 +120,10 @@ if __name__ == "__main__":
     desenho_forca(lista_posicoes)
     venceu = False
     while True:
-        jogada1 = int(input("Jogador 1, digite a posição deseja jogar:  "))
-        jogada2 = ""
-        jogada(jogada1, jogada2)
-        jogada2 = int(input("Jogador 2, digite a posição deseja jogar:  "))
-        jogada(jogada1, jogada2)
-
         if venceu == True:
-            print("FIM DE JOGO")
             break
+        venceu = vitoria(venceu)
+        jogada1 = int(input("Jogador 1, digite a posição deseja jogar:  "))
+        jogadas1(jogada1)
+        jogada2 = int(input("Jogador 2, digite a posição deseja jogar:  "))
+        jogadas2(jogada2)
