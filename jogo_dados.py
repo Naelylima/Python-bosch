@@ -17,7 +17,9 @@ def inicio():
     num_jogador = int(input(f"{jogador.nome}, digite o valor do dado (1-6): "))
     while True:
         if jogador.parar == True:
-            print(f'Tchazinho {jogador.nome}')
+            print('-'*30)
+            print(f'         Tchazinho {jogador.nome}')
+            print('-' * 30)
             break
         if num_jogador > 6 or num_jogador < 1:
             num_jogador = int(input("Digite um valor de 1-6: "))
@@ -27,21 +29,14 @@ def inicio():
 
         if lista.__contains__(num_jogador):
             if jogador.revanche1 == False:
-                while True:
-                    if jogador.creditos < 2:
-                        print(f'Seu saldo é insuficiente: R${jogador.creditos}')
-                        saldo_adc= int(input('Adicione mais saldo para continuar: R$'))
-                        jogador.creditos+= saldo_adc
-
-                    else:
-                        jogador.creditos -= 2
-                        lista.remove(num_jogador)
-                        num_comp = random.choice(lista)
-                        print(
-                            f'\n{jogador.nome}, seu número é: {num_jogador} e número escolhido pelo computador é: {num_comp}.')
-                        time.sleep(1)
-                        jogar_dados(num_jogador, num_comp)
-                        break
+                jogador.creditos -= 2
+                lista.remove(num_jogador)
+                num_comp = random.choice(lista)
+                print(
+                    f'\n{jogador.nome}, seu número é: {num_jogador} e número escolhido pelo computador é: {num_comp}.')
+                time.sleep(1)
+                jogar_dados(num_jogador, num_comp)
+                break
 
             else:
                 lista.remove(num_jogador)
@@ -129,7 +124,20 @@ def menu():
               '\n[2]- Encerrar')
         resposta = int(input('Digite a opção desejada: '))
         if resposta == 1:
-            inicio()
+            while True:
+                if jogador.creditos < 2:
+                    print('-'*37)
+                    print(f'Seu saldo é insuficiente: R${jogador.creditos}')
+                    saldo_adc = int(input('Adicione mais saldo para continuar: R$ '))
+                    while True:
+                        if saldo_adc % 2 != 0 :
+                            saldo_adc = int(input('\nDigte um válor de numero par, por favor: '))
+                        elif saldo_adc <= 0:
+                            saldo_adc = int(input('\nDigte um válor maior que 0, por favor: '))
+                        else:
+                            jogador.creditos += saldo_adc
+                else:
+                     inicio()
         else:
             jogador.parar=True
 
@@ -140,8 +148,8 @@ if __name__ == '__main__':
     jogador = Jogo(input("Digite seu nome: ").title(),
                    int(input("Cada partida são R$2,00.\nDigite o valor de crédito que deseja jogar: ")))
     while True:
-        if jogador.creditos % 2 != 0:
-            jogador.creditos = int(input('Digte um válor de numero par, por favor: '))
+        if jogador.creditos % 2 != 0 or jogador.creditos <= 0:
+            jogador.creditos = int(input('Digte um válor de numero par e maior que zero, por favor: '))
         else:
             inicio()
             break
