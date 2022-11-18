@@ -1,0 +1,56 @@
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QToolTip, QLabel, QLineEdit
+from PyQt5 import QtGui
+from PyQt5.QtCore import QTimer
+
+class Janela(QMainWindow): #Herança
+    def __init__(self):
+        super().__init__()
+        self.topo = 100
+        self.esquerda = 100
+        self.largura = 900
+        self.altura = 600
+        self.titulo = " Primeira Janela "
+
+        self.label1 = QLabel(self)
+        self.label1.setText("PEDRA, PAPEL E TESOURA")
+        self.label1.move(200, 30)
+        self.label1.setStyleSheet('QLabel {font:bold;font-size:40px;color:"BLACK"}')
+        self.label1.resize(600, 100)
+
+        self.imagem= QLabel(self)
+        self.imagem.move(80, 180)
+        self.imagem.resize(200, 200)
+        self.imagem.setScaledContents(True)
+        self.imagem.setPixmap(QtGui.QPixmap('pedra.png'))
+
+
+        botao_pedra= QPushButton('Pedra', self)
+        botao_pedra.move(50, 450) #distancia da esquerda- topo
+        botao_pedra.resize(210, 50) #largura - altura
+        botao_pedra.clicked.connect(self.botao_pedra)
+
+
+        botao_papel = QPushButton('Papel', self)
+        botao_papel.move(350, 450)  # distancia da esquerda- topo
+        botao_papel.resize(210, 50)  # largura - altura
+
+        botao_tesoura = QPushButton('Tesoura', self)
+        botao_tesoura.move(650, 450)  # distancia da esquerda- topo
+        botao_tesoura.resize(210, 50)  # largura - altura
+
+        self.carregar_janela()
+
+    def carregar_janela(self):
+        self.setGeometry(self.esquerda, self.topo, self.largura, self.altura)
+        self.setWindowTitle(self.titulo)
+        self.show()
+
+    def botao_pedra(self):
+        self.imagem.setPixmap(QtGui.QPixmap('pedra.png'))
+
+
+if __name__ == "__main__":
+    aplicacao = QApplication(sys.argv)
+    j= Janela()
+    sys.exit(aplicacao.exec())
