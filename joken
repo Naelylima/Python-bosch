@@ -1,3 +1,4 @@
+import random
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QToolTip, QLabel, QLineEdit
 from PyQt5 import QtGui
@@ -11,46 +12,80 @@ class Janela(QMainWindow): #Herança
         self.largura = 900
         self.altura = 600
         self.titulo = " Primeira Janela "
+        self.computador = ''
 
         self.label1 = QLabel(self)
         self.label1.setText("PEDRA, PAPEL E TESOURA")
-        self.label1.move(200, 30)
+        self.label1.move(200, -30)
         self.label1.setStyleSheet('QLabel {font:bold;font-size:40px;color:"BLACK"}')
         self.label1.resize(600, 100)
 
-        self.imagem= QLabel(self)
-        self.imagem.move(80, 180)
+        self.imagem = QLabel(self)
+        self.imagem.move(70, 100)
         self.imagem.resize(200, 200)
         self.imagem.setScaledContents(True)
-        self.imagem.setPixmap(QtGui.QPixmap('pedra.png'))
+
+
+        self.imagem_pedra= QLabel(self)
+        self.imagem_pedra.move(70, 350)
+        self.imagem_pedra.resize(150, 150)
+        self.imagem_pedra.setScaledContents(True)
+        self.imagem_pedra.setPixmap(QtGui.QPixmap('pedra.jpg'))
+
+        self.imagem_papel = QLabel(self)
+        self.imagem_papel.move(370, 350)
+        self.imagem_papel.resize(150, 150)
+        self.imagem_papel.setScaledContents(True)
+        self.imagem_papel.setPixmap(QtGui.QPixmap('papel.jpg'))
+
+        self.imagem_tesoura = QLabel(self)
+        self.imagem_tesoura.move(670, 350)
+        self.imagem_tesoura.resize(150, 150)
+        self.imagem_tesoura.setScaledContents(True)
+        self.imagem_tesoura.setPixmap(QtGui.QPixmap('tesoura.jpg'))
 
 
         botao_pedra= QPushButton('Pedra', self)
-        botao_pedra.move(50, 450) #distancia da esquerda- topo
+        botao_pedra.move(50, 530) #distancia da esquerda- topo
         botao_pedra.resize(210, 50) #largura - altura
-        botao_pedra.clicked.connect(self.botao_pedra)
+        botao_pedra.clicked.connect(self.sorteador)
+
 
 
         botao_papel = QPushButton('Papel', self)
-        botao_papel.move(350, 450)  # distancia da esquerda- topo
+        botao_papel.move(350, 530)  # distancia da esquerda- topo
         botao_papel.resize(210, 50)  # largura - altura
 
         botao_tesoura = QPushButton('Tesoura', self)
-        botao_tesoura.move(650, 450)  # distancia da esquerda- topo
+        botao_tesoura.move(650, 530)  # distancia da esquerda- topo
         botao_tesoura.resize(210, 50)  # largura - altura
 
         self.carregar_janela()
 
     def carregar_janela(self):
+        self.imagem.setPixmap(QtGui.QPixmap('pedra.jpg'))
         self.setGeometry(self.esquerda, self.topo, self.largura, self.altura)
         self.setWindowTitle(self.titulo)
         self.show()
 
+
     def botao_pedra(self):
-        self.imagem.setPixmap(QtGui.QPixmap('pedra.png'))
+        self.imagem_pedra.setPixmap(QtGui.QPixmap('pedra.png'))
+
+
+    def sorteador(self):
+        lista_escolha = ['pedra']
+        self.computador = random.choice(lista_escolha)
+        print(self.computador)
+        if self.computador == 'pedra':
+            self.imagem.setPixmap(QtGui.QPixmap('pedra.jpg'))
+
 
 
 if __name__ == "__main__":
     aplicacao = QApplication(sys.argv)
     j= Janela()
     sys.exit(aplicacao.exec())
+
+#     https://genialcursos.com.br/jogo/pedra-papel-tesoura/
+
