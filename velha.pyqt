@@ -1,8 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QToolTip, QLabel, QLineEdit
-from PyQt5 import QtGui
-from PyQt5.QtCore import QTimer
-
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QLineEdit
+from janela2 import Janela2
 
 class Janela(QMainWindow): #Herança
     def __init__(self):
@@ -11,8 +9,10 @@ class Janela(QMainWindow): #Herança
         self.esquerda = 100
         self.largura = 500
         self.altura = 600
-        self.titulo = " Primeira Janela "
+
+        # self.titulo = " Primeira Janela "
         self.jogada = 'jogador1'
+        self.vencedor = ''
 
         self.btn1 = ''
         self.btn2 = ''
@@ -45,14 +45,14 @@ class Janela(QMainWindow): #Herança
         self.label4 = QLabel(self)
         self.label4.setText("")
         self.label4.move(150, 490)
-        self.label4.setStyleSheet('QLabel {font:a;font-size:25px;color:"red"}')
+        self.label4.setStyleSheet('QLabel {font:a;font-size:25px;color:"green"}')
         self.label4.resize(600, 100)
 
         self.botao1 = QPushButton(self)
         self.botao1.move(40, 115)  # distancia da esquerda- topo
         self.botao1.resize(100, 100)  # largura - altura
         self.botao1.setFlat(True)
-        self.botao1.clicked.connect(lambda : self.jogadas(1))
+        self.botao1.clicked.connect(lambda: self.jogadas(1))
 
         self.botao2 = QPushButton(self)
         self.botao2.move(40, 255)
@@ -225,81 +225,131 @@ class Janela(QMainWindow): #Herança
     def verificar_vitoria(self):
         if self.btn1 == 'Jogador1' and self.btn2 == 'Jogador1' and self.btn3 == 'Jogador1':
             print('jogador1 venceu')
+            self.vencedor = 'jogador1'
             self.label4.setText("Jogador 1 venceu !")
-            # self.botao4.setEnabled(False)
+            self.desativar_botoes()
+            # self.__init__()
+            j.hide()
+            k.carregar_janela_nova()
+
         elif self.btn4 == 'Jogador1' and self.btn5 == 'Jogador1' and self.btn6 == 'Jogador1':
             print('jogador1 venceu')
+            self.vencedor = 'jogador1'
             self.label4.setText("Jogador 1 venceu !")
+            self.desativar_botoes()
+
+
         elif self.btn7 == 'Jogador1' and self.btn8 == 'Jogador1' and self.btn9 == 'Jogador1':
             print('jogador1 venceu')
+            self.vencedor = 'jogador1'
             self.label4.setText("Jogador 1 venceu !")
+            self.desativar_botoes()
         elif self.btn1 == 'Jogador1' and self.btn4 == 'Jogador1' and self.btn7 == 'Jogador1':
             print('jogador1 venceu')
+            self.vencedor = 'jogador1'
             self.label4.setText("Jogador 1 venceu !")
+            self.desativar_botoes()
         elif self.btn2 == 'Jogador1' and self.btn5 == 'Jogador1' and self.btn8 == 'Jogador1':
             print('jogador1 venceu')
+            self.vencedor = 'jogador1'
             self.label4.setText("Jogador 1 venceu !")
+            self.desativar_botoes()
         elif self.btn3 == 'Jogador1' and self.btn6 == 'Jogador1' and self.btn9 == 'Jogador1':
             print('jogador1 venceu')
+            self.vencedor = 'jogador1'
             self.label4.setText("Jogador 1 venceu !")
+            self.desativar_botoes()
         elif self.btn1 == 'Jogador1' and self.btn5 == 'Jogador1' and self.btn9 == 'Jogador1':
             print('jogador1 venceu')
+            self.vencedor = 'jogador1'
             self.label4.setText("Jogador 1 venceu !")
+            self.desativar_botoes()
         elif self.btn7 == 'Jogador1' and self.btn5 == 'Jogador1' and self.btn3 == 'Jogador1':
             print('jogador1 venceu')
+            self.vencedor = 'jogador1'
             self.label4.setText("Jogador 1 venceu !")
+            self.desativar_botoes()
+
         # JOGADOR2
         elif self.btn1 == 'Jogador2' and self.btn2 == 'Jogador2' and self.btn3 == 'Jogador2':
             print('jogador2 venceu')
+            self.vencedor = 'jogador2'
             self.label4.setText("Jogador 2 venceu !")
+            self.desativar_botoes()
         elif self.btn4 == 'Jogador2' and self.btn5 == 'Jogador2' and self.btn6 == 'Jogador2':
             print('jogador2 venceu')
+            self.vencedor = 'jogador2'
             self.label4.setText("Jogador 2 venceu !")
+            self.desativar_botoes()
         elif self.btn7 == 'Jogador2' and self.btn8 == 'Jogador2' and self.btn9 == 'Jogador2':
             print('jogador2 venceu')
+            self.vencedor = 'jogador2'
             self.label4.setText("Jogador 2 venceu !")
+            self.desativar_botoes()
         elif self.btn1 == 'Jogador2' and self.btn4 == 'Jogador2' and self.btn7 == 'Jogador2':
             print('jogador2 venceu')
+            self.vencedor = 'jogador2'
             self.label4.setText("Jogador 2 venceu !")
+            self.desativar_botoes()
         elif self.btn2 == 'Jogador2' and self.btn5 == 'Jogador2' and self.btn8 == 'Jogador2':
             print('jogador2 venceu')
+            self.vencedor = 'jogador2'
             self.label4.setText("Jogador 2 venceu !")
+            self.desativar_botoes()
         elif self.btn3 == 'Jogador2' and self.btn6 == 'Jogador2' and self.btn9 == 'Jogador2':
             print('jogador2 venceu')
+            self.vencedor = 'jogador2'
             self.label4.setText("Jogador 2 venceu !")
+            self.desativar_botoes()
         elif self.btn1 == 'Jogador2' and self.btn5 == 'Jogador2' and self.btn9 == 'Jogador2':
             print('jogador2 venceu')
+            self.vencedor = 'jogador2'
             self.label4.setText("Jogador 2 venceu !")
+            self.desativar_botoes()
         elif self.btn7 == 'Jogador2' and self.btn5 == 'Jogador2' and self.btn3 == 'Jogador2':
             print('jogador2 venceu')
+            self.vencedor = 'jogador2'
             self.label4.setText("Jogador 2 venceu !")
+            self.desativar_botoes()
         else:
             if self.btn1 != '' and self.btn2 != '' and self.btn3 != '' and self.btn4 != '' and self.btn5 != '' and self.btn6 != '' and self.btn7 != '' and self.btn8 != '' and self.btn9 !='':
                 print('deu velha')
                 self.label4.setText("Deu velha!")
-                # j.hide()
-                # j.show()
-
-
+    def desativar_botoes(self):
+        if self.vencedor == 'jogador1' or self.vencedor =='jogador2':
+            self.botao1.setEnabled(False)
+            self.botao2.setEnabled(False)
+            self.botao3.setEnabled(False)
+            self.botao4.setEnabled(False)
+            self.botao5.setEnabled(False)
+            self.botao6.setEnabled(False)
+            self.botao7.setEnabled(False)
+            self.botao8.setEnabled(False)
+            self.botao9.setEnabled(False)
 
     def carregar_janela(self):
         self.setGeometry(self.esquerda, self.topo, self.largura, self.altura)
-        self.setWindowTitle(self.titulo)
+        # self.setWindowTitle(self.titulo)
         self.show()
+
+
+
 
 stylesheet = """
         Janela {
-            background-image: url("fundo_jogo.jpg"); 
+            background-image: url('fundo_jogo.jpg'); 
             background-repeat: no-repeat; 
             background-position: center;
             background-color: white;
         }
+        
     """
-
 
 
 if __name__ == "__main__":
     aplicacao = QApplication(sys.argv)
-    j= Janela()
+    j = Janela()
+    k = Janela2()
     aplicacao.setStyleSheet(stylesheet)
     sys.exit(aplicacao.exec())
+
