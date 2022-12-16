@@ -4,7 +4,8 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QToolTip, QL
 from PyQt5 import QtGui
 from PyQt5.QtCore import QTimer
 
-class Janela(QMainWindow): #Herança
+
+class Janela(QMainWindow):  # Herança
     def __init__(self):
         super().__init__()
         self.topo = 100
@@ -12,14 +13,22 @@ class Janela(QMainWindow): #Herança
         self.largura = 900
         self.altura = 600
         self.titulo = " Primeira Janela "
+        self.contador = 0
+        self.ponto_usuario = 0
+        self.ponto_computador = 0
         self.computador = ''
         self.opcao_usuario = ''
         self.resultado = ''
 
+        self.timer1 = QLabel(self)
+        self.timer1.move(390, 70)
+        self.timer1.setStyleSheet('QLabel {font:bold;font-size:30px;color:"BLACK";}')
+        self.timer1.resize(600, 100)
+
         self.label1 = QLabel(self)
         self.label1.setText("PEDRA, PAPEL E TESOURA")
-        self.label1.move(200, -30)
-        self.label1.setStyleSheet('QLabel {font:bold;font-size:40px;color:"BLACK"}')
+        self.label1.move(285, -30)
+        self.label1.setStyleSheet('QLabel {font:bold;font-size:30px;color:"BLACK";}')
         self.label1.resize(600, 100)
 
         self.resultado = QLabel(self)
@@ -48,12 +57,12 @@ class Janela(QMainWindow): #Herança
         self.imagem.resize(200, 200)
         self.imagem.setScaledContents(True)
 
-        self.imagemDireita= QLabel(self)
+        self.imagemDireita = QLabel(self)
         self.imagemDireita.move(650, 100)
         self.imagemDireita.resize(200, 200)
         self.imagemDireita.setScaledContents(True)
 
-        self.imagem_pedra= QLabel(self)
+        self.imagem_pedra = QLabel(self)
         self.imagem_pedra.move(70, 370)
         self.imagem_pedra.resize(130, 130)
         self.imagem_pedra.setScaledContents(True)
@@ -71,17 +80,15 @@ class Janela(QMainWindow): #Herança
         self.imagem_tesoura.setScaledContents(True)
         self.imagem_tesoura.setPixmap(QtGui.QPixmap('tesoura.jpg'))
 
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.sorteador)
 
         botao_iniciar = QPushButton('Iniciar Partida', self)
         botao_iniciar.move(350, 180)  # distancia da esquerda- topo
         botao_iniciar.resize(210, 50)  # largura - altura
         botao_iniciar.clicked.connect(self.sorteador)
 
-        botao_pedra= QPushButton('Pedra', self)
-        botao_pedra.move(50, 530) #distancia da esquerda- topo
-        botao_pedra.resize(210, 50) #largura - altura
+        botao_pedra = QPushButton('Pedra', self)
+        botao_pedra.move(50, 530)  # distancia da esquerda- topo
+        botao_pedra.resize(210, 50)  # largura - altura
         botao_pedra.clicked.connect(self.botao_pedra)
 
         botao_papel = QPushButton('Papel', self)
@@ -94,6 +101,9 @@ class Janela(QMainWindow): #Herança
         botao_tesoura.resize(210, 50)  # largura - altura
         botao_tesoura.clicked.connect(self.botao_tesoura)
 
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.sorteador)
+
         self.carregar_janela()
 
     def carregar_janela(self):
@@ -101,52 +111,72 @@ class Janela(QMainWindow): #Herança
         self.setWindowTitle(self.titulo)
         self.show()
 
-
     def botao_pedra(self):
         self.imagemDireita.setPixmap(QtGui.QPixmap('pedraDireita.png'))
-        self.opcao_usuario ='pedra'
+        self.opcao_usuario = 'pedra'
         self.opcao_user.setText('Pedra')
-
+        self.verificacao()
 
     def botao_papel(self):
         self.imagemDireita.setPixmap(QtGui.QPixmap('papelDieita.png'))
         self.opcao_usuario = 'papel'
         self.opcao_user.setText('Papel')
+        self.verificacao()
 
     def botao_tesoura(self):
         self.imagemDireita.setPixmap(QtGui.QPixmap('tesouraDireita.png'))
         self.opcao_usuario = 'tesoura'
         self.opcao_user.setText('Tesoura')
+        self.verificacao()
 
+    # def iniciador(self):
+    #     if self.timer.isActive() == False:
+    #         self.contador = 0
+    #         self.timer.start(1000)
 
     def sorteador(self):
         self.timer.start(1000)
-        lista_escolha = ['pedra','papel', 'tesoura']
+        lista_escolha = ['pedra', 'papel', 'tesoura']
         self.computador = random.choice(lista_escolha)
         print(self.computador)
         if self.computador == 'pedra':
             self.imagem.setPixmap(QtGui.QPixmap('pedra.jpg'))
             self.opcao_pc.setText('Pedra')
+
         elif self.computador == 'papel':
             self.imagem.setPixmap(QtGui.QPixmap('papel.jpg'))
             self.opcao_pc.setText('Papel')
+
+
         else:
             self.imagem.setPixmap(QtGui.QPixmap('tesoura.jpg'))
             self.opcao_pc.setText('Tesoura')
 
-    def verificacao(self):
-        if self.opcao_user == self.computador:
-            # self.resultado = 'Empate'
-            self.resultado.setText('Empate')
-        
+        self.contador += 1
 
+        self.timer1.setText(f'Timer: {self.contador}')
+
+        if self.contador >= 10:
+            self.timer.stop()
+
+    def verificacao(self):
+        # print()
+        if self.opcao_usuario == 'tesoura' and self.computador =='papel' or self.opcao_usuario == 'papel' and self.computador =='pedra' or self.opcao_usuario == 'pedra' and self.computador =='tesoura':
+            self.resultado.setText('Jogodar 1 Venceu')
+            self.ponto_usuario += 1
+
+        elif self.computador == 'tesoura' and self.opcao_usuario =='papel' or self.computador == 'papel' and self.opcao_user =='pedra' or self.computador == 'pedra' and self.opcao_usuario =='tesoura':
+            self.resultado.setText('Computador Venceu')
+            self.ponto_computador += 1
+
+        elif self.computador == self.opcao_usuario:
+            self.resultado.setText('Empate')
 
 
 
 if __name__ == "__main__":
     aplicacao = QApplication(sys.argv)
-    j= Janela()
+    j = Janela()
     sys.exit(aplicacao.exec())
 
 #     https://genialcursos.com.br/jogo/pedra-papel-tesoura/
-
