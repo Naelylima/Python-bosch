@@ -1,137 +1,87 @@
-def menu_principal ():
-    print("************** Bem vindo ao Jogo da Forca ****************")
-    print("[1] - X "
-          "\n[2] - O"
-          "\n[3] - Sair")
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QLineEdit
+from PyQt5.QtGui import QMovie
 
-def desenho_forca(lista):
-    print("┌───┬───┬───┐")
-    print(f"│ {lista[0][0]} │ {lista[0][1]} │ {lista[0][2]} │")
-    print("├───┼───┼───┤")
-    print(f"│ {lista[1][0]} │ {lista[1][1]} │ {lista[1][2]} │")
-    print("├───┼───┼───┤")
-    print(f"│ {lista[2][0]} │ {lista[2][1]} │ {lista[2][2]} │")
-    print("└───┴───┴───┘")
 
-def menu_escolha(jogador_1, jogador_2):
-    while True:
-        try:
-            if jogador_1 > 3 or jogador_1 < 1:
-                print("Escolha uma opção válida\n")
-                break
-            if jogador_1 == 1:
-                jogador_1 = "X"
-                jogador_2 = "O"
-                print("-"*38)
-                print(f"Jogador 1 neste jogo você será: {jogador_1}\nJogador 2 neste jogo você será: {jogador_2}")
-                print("-" * 38)
-                return jogador_1, jogador_2
-            elif jogador_1 == 3:
-                print("-" * 38)
-                print("        Obrigada por participar!")
-                print("-" * 38)
-                break
-            elif jogador_1 == 2:
-                jogador_1 = "O"
-                jogador_2 = "X"
-                print("-" * 38)
-                print(f"Jogador 1 neste jogo você será: {jogador_1}\nJogador 2 neste jogo você será: {jogador_2}")
-                print("-" * 38)
-                return jogador_1, jogador_2
-        except ValueError:
-            print("Você digitou algo errado\n")
-            continue
+class Velha(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.topo = 100
+        self.esquerda = 100
+        self.largura = 800
+        self.altura = 500
 
-def verificar(par):
-    for i in range(3):
-        for j in range(3):
-            if par == lista_posicoes[i][j]:
-                return i, j
-    return None, None
+        self.movie = QMovie('velha.gif')
+        self.gif = QLabel(self)
+        self.gif.resize(800, 500)
+        self.gif.setMovie(self.movie)
+        self.gif.setScaledContents(True)
+        self.movie.start()
 
-def jogadas(jogada1, jogador):
-    vencer = False
-    linha, coluna = verificar(jogada1)
-    if linha != None:
-        if jogador == 1:
-            lista_posicoes[linha][coluna] = jogador1
-        else:
-            lista_posicoes[linha][coluna] = jogador2
-        vencer = vitoria(vencer=venceu)
-    else:
-        print("Essa opção já foi escolhida")
-        seguir_jogo = False
-        return seguir_jogo
+        self.botao1 = QPushButton(self)
+        self.botao1.move(170, 140)  # distancia da esquerda- topo
+        self.botao1.resize(90, 90)  # largura - altura
+        self.botao1.setFlat(True)
+        # self.botao1.clicked.connect(lambda: self.jogadas(1))
 
-    desenho_forca(lista_posicoes)
-    return vencer
+        self.botao2 = QPushButton(self)
+        self.botao2.move(170, 260)
+        self.botao2.resize(90, 90)
+        self.botao2.setFlat(True)
+        # # self.botao2.clicked.connect(lambda: self.jogadas(2))
+        #
+        self.botao3 = QPushButton(self)
+        self.botao3.move(170, 375)
+        self.botao3.resize(90, 90)
+        self.botao3.setFlat(True)
+        # # self.botao3.clicked.connect(lambda: self.jogadas(3))
+        #
+        self.botao4 = QPushButton(self)
+        self.botao4.move(280, 140)
+        self.botao4.resize(90, 90)
+        self.botao4.setFlat(True)
+        # # self.botao4.clicked.connect(lambda: self.jogadas(4))
+        #
 
-def vitoria(vencer):
-    vencer = False
-    for linhas in range(0, 3):
-        if lista_posicoes[linhas][0] == jogador1 and lista_posicoes[linhas][1] == jogador1 and lista_posicoes[linhas][2] == jogador1:
-            print("*" * 30)
-            print("Jogador 1, VENCEU")
-            print("*" * 30)
-            vencer = True
-            return vencer
-        if lista_posicoes[linhas][0] == jogador2 and lista_posicoes[linhas][1] == jogador2 and lista_posicoes[linhas][2] == jogador2:
-            print("*" * 30)
-            print("Jogador 2, VENCEU")
-            print("*" * 30)
-            vencer = True
-            return vencer
-    for linhas in range(0, 3):
-        if lista_posicoes[0][linhas] == jogador1 and lista_posicoes[1][linhas] == jogador1 and lista_posicoes[2][linhas] == jogador1:
-            print("*" * 30)
-            print("Jogador 1, VENCEU")
-            print("*" * 30)
-            vencer = True
-            return vencer
-        if lista_posicoes[0][linhas] == jogador2 and lista_posicoes[1][linhas] == jogador2 and lista_posicoes[2][linhas] == jogador2:
-            print("*" * 30)
-            print("Jogador 2, VENCEU")
-            print("*" * 30)
-            vencer = True
-            return vencer
-    if lista_posicoes[0][0] == jogador1 and lista_posicoes[1][1] == jogador1 and lista_posicoes[2][2] == jogador1:
-        print("*"*30)
-        print("Jogador 1, VENCEU")
-        print("*" * 30)
-        vencer = True
-        return vencer
-    elif lista_posicoes[0][0] == jogador2 and lista_posicoes[1][1] == jogador2 and lista_posicoes[2][2]== jogador2:
-        print("*" * 30)
-        print("Jogador 2, VENCEU")
-        print("*" * 30)
-        vencer = True
-        return vencer
+        self.botao5 = QPushButton(self)
+        self.botao5.move(280, 260)
+        self.botao5.resize(90, 90)
+        self.botao5.setFlat(True)
+        # # self.botao5.clicked.connect(lambda: self.jogadas(6))
 
-    return vencer
+        self.botao6 = QPushButton(self)
+        self.botao6.move(280, 375)
+        self.botao6.resize(90, 90)
+        self.botao6.setFlat(True)
+        # # self.botao6.clicked.connect(lambda: self.jogadas(5))
+
+        self.botao7 = QPushButton(self)
+        self.botao7.move(392, 140)
+        self.botao7.resize(90, 90)
+        self.botao7.setFlat(True)
+        # # self.botao7.clicked.connect(lambda: self.jogadas(7))
+        #
+        self.botao8 = QPushButton(self)
+        self.botao8.move(392, 260)
+        self.botao8.resize(90, 90)
+        self.botao8.setFlat(True)
+        # # self.botao8.clicked.connect(lambda: self.jogadas(8))
+        #
+        self.botao9 = QPushButton(self)
+        self.botao9.move(392, 375)
+        self.botao9.resize(90, 90)
+        self.botao9.setFlat(True)
+        # # self.botao9.clicked.connect(lambda: self.jogadas(9))
+
+        self.botao_reset = QPushButton(self)
+        self.botao_reset.move(10, 450)
+        self.botao_reset.resize(100, 40)
+        self.botao_reset.setFlat(True)
+
+        self.setGeometry(self.esquerda, self.topo, self.largura, self.altura)
+
 
 if __name__ == "__main__":
-    lista_posicoes = [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
-    menu_principal()
-    seguir_jogo = True
-    venceu = False
-    jogador2 = ""
-    jogador1 = int(input("Jogador 1, Digite o que será nesse jogo: "))
-    jogador1, jogador2 = menu_escolha(jogador1, jogador2)
-    desenho_forca(lista_posicoes)
-    while True:
-        venceu = vitoria(venceu)
-        while True:
-            if venceu == True:
-                break
-            else:
-                jogada1 = int(input("Jogador 1, digite a posição deseja jogar:  "))
-                venceu = jogadas(jogada1, 1)
-                if venceu == True:
-                    break
-                venceu = jogada2 = int(input("Jogador 2, digite a posição deseja jogar:  "))
-                jogadas(jogada2, 2)
-                if venceu == True:
-                    break
-        break
-
-
+    aplicacao = QApplication(sys.argv)
+    j = Velha()
+    sys.exit(aplicacao.exec())
