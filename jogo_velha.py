@@ -11,7 +11,7 @@ class Velha(QMainWindow):
         self.largura = 800
         self.altura = 500
 
-        self.movie = QMovie('velhaTeste.gif')
+        self.movie = QMovie('velha2.gif')
         self.gif = QLabel(self)
         self.gif.resize(800, 500)
         self.gif.setMovie(self.movie)
@@ -99,10 +99,17 @@ class Velha(QMainWindow):
         self.botao9.setFlat(True)
         self.botao9.clicked.connect(lambda: self.jogadas(9))
 
+        self.botao_novo = QPushButton(self)
+        self.botao_novo.move(10, 400)
+        self.botao_novo.resize(100, 40)
+        self.botao_novo.setFlat(True)
+        self.botao_novo.clicked.connect(self.zerar_placar)
+
         self.botao_reset = QPushButton(self)
         self.botao_reset.move(10, 450)
         self.botao_reset.resize(100, 40)
         self.botao_reset.setFlat(True)
+        self.botao_reset.clicked.connect(self.reset)
 
         self.setGeometry(self.esquerda, self.topo, self.largura, self.altura)
 
@@ -340,7 +347,7 @@ class Velha(QMainWindow):
         else:
             if self.btn1 != '' and self.btn2 != '' and self.btn3 != '' and self.btn4 != '' and self.btn5 != '' and self.btn6 != '' and self.btn7 != '' and self.btn8 != '' and self.btn9 != '':
                 print('deu velha')
-                self.jogador1.setText("Deu velha!")
+
 
     def desativar_botoes(self):
         if self.vencedor == 'jogador1' or self.vencedor == 'jogador2':
@@ -354,8 +361,43 @@ class Velha(QMainWindow):
             self.botao8.setEnabled(False)
             self.botao9.setEnabled(False)
 
+    def zerar_placar(self):
+        self.ponto_jogador1 = 0
+        self.ponto_jogador2 = 0
+        self.jogador2.setText(f"{self.ponto_jogador2}")
+        self.jogador1.setText(f"{self.ponto_jogador1}")
+        self.reset()
 
-**if __name__ == "__main__":
-    aplicacao = QApplication(sys.argv)
-    j = Velha()
-    sys.exit(aplicacao.exec())**
+    def reset(self):
+        self.botao1.setStyleSheet('')
+        self.botao2.setStyleSheet('')
+        self.botao3.setStyleSheet('')
+        self.botao4.setStyleSheet('')
+        self.botao5.setStyleSheet('')
+        self.botao6.setStyleSheet('')
+        self.botao7.setStyleSheet('')
+        self.botao8.setStyleSheet('')
+        self.botao9.setStyleSheet('')
+
+        self.botao1.setEnabled(True)
+        self.botao2.setEnabled(True)
+        self.botao3.setEnabled(True)
+        self.botao4.setEnabled(True)
+        self.botao5.setEnabled(True)
+        self.botao6.setEnabled(True)
+        self.botao7.setEnabled(True)
+        self.botao8.setEnabled(True)
+        self.botao9.setEnabled(True)
+
+        self.vencedor = ''
+        self.jogada = 'jogador1'
+
+        self.btn1 = ''
+        self.btn2 = ''
+        self.btn3 = ''
+        self.btn4 = ''
+        self.btn5 = ''
+        self.btn6 = ''
+        self.btn7 = ''
+        self.btn8 = ''
+        self.btn9 = ''
